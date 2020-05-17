@@ -1,7 +1,8 @@
-package io.devlight.cocktailapp
+package io.devlight.cocktailapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import io.devlight.cocktailapp.R
 
 class SearchActivity : AppCompatActivity() {
 

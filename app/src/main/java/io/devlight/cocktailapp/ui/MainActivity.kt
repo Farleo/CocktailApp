@@ -1,9 +1,10 @@
-package io.devlight.cocktailapp
+package io.devlight.cocktailapp.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import io.devlight.cocktailapp.R
 
 class MainActivity : AppCompatActivity() {
 

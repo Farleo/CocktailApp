@@ -1,4 +1,4 @@
-package io.devlight.cocktailapp
+package io.devlight.cocktailapp.ui
 
 import android.content.Intent
 import android.os.Bundle
