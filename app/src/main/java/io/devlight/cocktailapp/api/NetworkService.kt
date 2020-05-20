@@ -4,25 +4,23 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class NetworkService private constructor() {
-    private val mRetrofit: Retrofit
+object NetworkService {
+    private var retrofit: Retrofit? = null
+    private val instance: Retrofit
+        get() {
+            if (retrofit == null) {
 
-    companion object {
-        private var mInstance: NetworkService? = null
-        private const val BASE_URL = "https://www.thecocktaildb.com/api/json/v1/1/"
-        val instance: NetworkService?
-            get() {
-                if (mInstance == null) {
-                    mInstance = NetworkService()
-                }
-                return mInstance
+                val url = "https://www.thecocktaildb.com/"
+                retrofit = Retrofit.Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
             }
+            return retrofit!!
+        }
+
+    fun getJSONApi(): TheCocktailDbApi {
+        return instance.create(TheCocktailDbApi::class.java)
     }
 
-    init {
-        mRetrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
 }
