@@ -1,12 +1,13 @@
 package io.devlight.cocktailapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.GridView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.devlight.cocktailapp.R
-import io.devlight.cocktailapp.adapter.CustomAdapter
+import io.devlight.cocktailapp.adapter.DrinkSearchViewAdapter
 import io.devlight.cocktailapp.api.NetworkService
 import io.devlight.cocktailapp.api.TheCocktailDbApi
 import io.devlight.cocktailapp.model.CocktailSearchResponse
@@ -27,8 +28,14 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         jsonApi = NetworkService.getJSONApi()
         this.gridView = findViewById(R.id.gridView)
-        val customAdapter = CustomAdapter(this, drinks)
+        val customAdapter = DrinkSearchViewAdapter(this, drinks)
         gridView.adapter = customAdapter
+        gridView.setOnItemClickListener { parent, view, position, id ->
+            Toast.makeText(this, "Clicked item : $position",Toast.LENGTH_SHORT).show()
+            intent = Intent(this, CocktailDetailsActivity::class.java)
+            intent.putExtra("drinks", drinks[position])
+            this.startActivity(intent)
+        }
         val editText = findViewById<EditText>(R.id.search_field)
         editText.addTextChangedListener(object : SearchTextWatcher() {
             override fun onSearch(text: String) {

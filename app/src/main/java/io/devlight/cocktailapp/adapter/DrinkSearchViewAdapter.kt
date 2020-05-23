@@ -13,7 +13,7 @@ import io.devlight.cocktailapp.R
 import io.devlight.cocktailapp.model.Drinks
 
 
-class CustomAdapter(private var context: Context, private var drinks: MutableList<Drinks>) : BaseAdapter() {
+class DrinkSearchViewAdapter(private var context: Context, private var drinks: MutableList<Drinks>) : BaseAdapter() {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
 
@@ -39,7 +39,7 @@ class CustomAdapter(private var context: Context, private var drinks: MutableLis
         }
         val currentDrinks = drinks[position]
 
-        if(currentDrinks.strDrinkThumb.isNotBlank())
+        if(currentDrinks.strDrinkThumb!!.isNotBlank())
         {
             Picasso.get().load(currentDrinks.strDrinkThumb).into(holder.mImageView)
         }else {
