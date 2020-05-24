@@ -36,7 +36,6 @@ class SearchActivity : AppCompatActivity() {
         customAdapter = DrinkSearchViewAdapter(this, drinks)
         gridView.adapter = customAdapter
         gridView.setOnItemClickListener { parent, view, position, id ->
-            Toast.makeText(this, "Clicked item : $position",Toast.LENGTH_SHORT).show()
             intent = Intent(this, CocktailDetailsActivity::class.java)
             intent.putExtra("drinks", drinks[position])
             this.startActivity(intent)
@@ -47,6 +46,10 @@ class SearchActivity : AppCompatActivity() {
                 search(text)
             }
         })
+        editText.isFocusable = true
+        editText.isIconified = false
+        editText.requestFocusFromTouch()
+
     }
     fun search(searchTag: String) {
         val request = jsonApi.searchCocktails(searchTag)

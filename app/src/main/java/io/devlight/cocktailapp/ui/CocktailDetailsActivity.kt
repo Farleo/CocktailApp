@@ -3,7 +3,6 @@ package io.devlight.cocktailapp.ui
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,8 +33,6 @@ class CocktailDetailsActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.glass).apply { text = drinks?.strGlass }
         findViewById<TextView>(R.id.instructionsDescription).apply { text = drinks?.strInstructions }
         ingredients = getIngredients(drinks)
-
-        Toast.makeText(this, "Clicked item : $ingredients", Toast.LENGTH_SHORT).show()
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = IngredientsAdapter(this, ingredients)

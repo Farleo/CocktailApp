@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.GridView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.devlight.cocktailapp.R
 import io.devlight.cocktailapp.adapter.DrinkSearchViewAdapter
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.history).apply { text = "" }
         }
         gridView.setOnItemClickListener { parent, view, position, id ->
-            Toast.makeText(this, "Clicked item : $position",Toast.LENGTH_SHORT).show()
             intent = Intent(this, CocktailDetailsActivity::class.java)
             intent.putExtra("drinks", drinks[position])
             this.startActivity(intent)

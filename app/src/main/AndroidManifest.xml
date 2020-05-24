@@ -24,7 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.SearchActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".ui.CocktailDetailsActivity"
             android:launchMode="singleInstance">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
