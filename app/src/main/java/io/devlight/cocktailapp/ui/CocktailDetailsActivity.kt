@@ -26,6 +26,7 @@ class CocktailDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cocktail_details)
         val intent = intent
         val drinks = intent.getParcelableExtra<Drinks>("drinks")
+        title = drinks?.strDrink
         save(drinks)
         Picasso.get().load(drinks?.strDrinkThumb).into(findViewById<ImageView>(R.id.cocktailImgDetail))
         findViewById<TextView>(R.id.drinkName).apply { text = drinks?.strDrink}
@@ -79,7 +80,7 @@ class CocktailDetailsActivity : AppCompatActivity() {
         drinks = Paper.book().read("drinks", ArrayList())
         val existDrink = drinks.find { drinks -> drinks.idDrink==newDrink.idDrink }
         if(existDrink==null) {
-            drinks.add(newDrink)
+            drinks.add(0,newDrink)
         }
         Paper.book().write("drinks", drinks)
     }

@@ -2,8 +2,10 @@ package io.devlight.cocktailapp.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
+import android.view.View
 import android.widget.GridView
+import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.devlight.cocktailapp.R
@@ -21,6 +23,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var jsonApi: TheCocktailDbApi
     var drinks: MutableList<Drinks> = ArrayList()
     private lateinit var gridView: GridView
+    private lateinit var customAdapter: DrinkSearchViewAdapter
+    private lateinit var textHelp: TextView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +32,8 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
         jsonApi = NetworkService.getJSONApi()
         this.gridView = findViewById(R.id.gridView)
-        val customAdapter = DrinkSearchViewAdapter(this, drinks)
+        this.textHelp = findViewById(R.id.textView)
+        customAdapter = DrinkSearchViewAdapter(this, drinks)
         gridView.adapter = customAdapter
         gridView.setOnItemClickListener { parent, view, position, id ->
             Toast.makeText(this, "Clicked item : $position",Toast.LENGTH_SHORT).show()
@@ -36,8 +41,8 @@ class SearchActivity : AppCompatActivity() {
             intent.putExtra("drinks", drinks[position])
             this.startActivity(intent)
         }
-        val editText = findViewById<EditText>(R.id.search_field)
-        editText.addTextChangedListener(object : SearchTextWatcher() {
+        val editText = findViewById<SearchView>(R.id.search_field)
+        editText.setOnQueryTextListener(object : DelayedQueryTextListener() {
             override fun onSearch(text: String) {
                 search(text)
             }
@@ -49,7 +54,10 @@ class SearchActivity : AppCompatActivity() {
             override fun onResponse(call: Call<CocktailSearchResponse>, response: Response<CocktailSearchResponse>) {
                 val result = response.body()!!.drinks
                 drinks.clear()
-                drinks.addAll(result)
+                if(!result.isNullOrEmpty()) {
+                    drinks.addAll(result)
+                }
+                updateDataSet()
             }
 
             override fun onFailure(call: Call<CocktailSearchResponse>, t: Throwable) {
@@ -61,4 +69,10 @@ class SearchActivity : AppCompatActivity() {
             }
         })
     }
+  fun updateDataSet(){
+      runOnUiThread {
+          textHelp.visibility = if(drinks.isEmpty())View.VISIBLE else View.INVISIBLE
+          customAdapter.notifyDataSetChanged()
+      }
+  }
 }
