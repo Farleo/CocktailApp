@@ -78,7 +78,7 @@ class CocktailDetailsActivity : AppCompatActivity() {
         Paper.init(this)
         val drinks : List<Drinks>
         drinks = Paper.book().read("drinks", ArrayList())
-        val existDrink = drinks.find { drinks -> drinks.idDrink==newDrink.idDrink }
+        val existDrink = drinks.find { d -> d.idDrink==newDrink.idDrink }
         if(existDrink==null) {
             drinks.add(0,newDrink)
         }
