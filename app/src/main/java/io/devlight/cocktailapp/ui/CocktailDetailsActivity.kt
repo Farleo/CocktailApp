@@ -12,6 +12,7 @@ import io.devlight.cocktailapp.R
 import io.devlight.cocktailapp.adapter.IngredientsAdapter
 import io.devlight.cocktailapp.model.Drinks
 import io.devlight.cocktailapp.model.Ingredient
+import io.paperdb.Paper
 
 
 class CocktailDetailsActivity : AppCompatActivity() {
@@ -25,6 +26,7 @@ class CocktailDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_cocktail_details)
         val intent = intent
         val drinks = intent.getParcelableExtra<Drinks>("drinks")
+        save(drinks)
         Picasso.get().load(drinks?.strDrinkThumb).into(findViewById<ImageView>(R.id.cocktailImgDetail))
         findViewById<TextView>(R.id.drinkName).apply { text = drinks?.strDrink}
         findViewById<TextView>(R.id.alcoholic).apply { text = drinks?.strAlcoholic }
@@ -39,10 +41,7 @@ class CocktailDetailsActivity : AppCompatActivity() {
         recyclerView = findViewById<RecyclerView>(R.id.recycler_ingredients).apply {
 
             setHasFixedSize(true)
-
             layoutManager = viewManager
-
-
             adapter = viewAdapter
 
         }
@@ -73,5 +72,15 @@ class CocktailDetailsActivity : AppCompatActivity() {
         if(!ingredientName.isNullOrBlank()) {
             this.add(Ingredient(ingredientName,measure))
         }
+    }
+    private fun save(newDrink: Drinks){
+        Paper.init(this)
+        val drinks : List<Drinks>
+        drinks = Paper.book().read("drinks", ArrayList())
+        val existDrink = drinks.find { drinks -> drinks.idDrink==newDrink.idDrink }
+        if(existDrink==null) {
+            drinks.add(newDrink)
+        }
+        Paper.book().write("drinks", drinks)
     }
 }
